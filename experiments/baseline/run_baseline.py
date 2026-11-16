@@ -13,6 +13,8 @@ from sklearn.pipeline import make_pipeline
 
 # Repo kok dizinini Python arama yoluna ekle
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+# Goreli yollar (results/...) her zaman repo kokune yazilsin diye calisma dizinini repo kokune al
+os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.fuzzy_engine import FuzzyClassifier
 from src.rule_induction import format_rule
 from src.evaluation import FEATURES, SEED, load_wine_xy, cv_evaluate, summarize
