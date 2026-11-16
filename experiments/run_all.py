@@ -21,8 +21,13 @@ def build_final_comparison():
     k3_cv = pd.read_csv("results/tables/k3_defuzz_cv.csv")
     prop_frbm = k3_cv[k3_cv["model"] == "Quantile + Vote (max)"]
 
-    k1_df = pd.read_csv("results/tables/k1_topk_curve.csv")
-    k9_row = k1_df[k1_df["k"] == 9].iloc[0]
+    # K1: tam modelin dogrulugunun 0.02 icindeki en kucuk k (lens_analysis.py ile ayni kural)
+    k1_df = pd.read_csv("results/tables/k1_topk_curve.csv").sort_values("k").reset_index(drop=True)
+    k_max = int(k1_df["k"].max())
+    full_acc = float(k1_df.loc[k1_df["k"] == k_max, "accuracy_mean"].iloc[0])
+    ok = k1_df[(k1_df["k"] < k_max) & (k1_df["accuracy_mean"] >= full_acc - 0.02)]
+    k_star = int(ok["k"].iloc[0]) if len(ok) > 0 else k_max
+    k_row = k1_df[k1_df["k"] == k_star].iloc[0]
 
     b_acc, p_acc = base_frbm["accuracy"].mean(), prop_frbm["accuracy"].mean()
     b_f1, p_f1 = base_frbm["macro_f1"].mean(), prop_frbm["macro_f1"].mean()
@@ -33,20 +38,20 @@ def build_final_comparison():
         {
             "Metric": "Accuracy (5x5 CV)",
             "Baseline": f"{b_acc:.3f} ± {base_frbm['accuracy'].std():.3f}",
-            "Proposed": f"{p_acc:.3f} ± {prop_frbm['accuracy'].std():.3f} (k=9: {k9_row['accuracy_mean']:.3f})",
-            "Change": f"+{(p_acc - b_acc) * 100:.1f} pp",
+            "Proposed": f"{p_acc:.3f} ± {prop_frbm['accuracy'].std():.3f} (k={k_star}: {k_row['accuracy_mean']:.3f})",
+            "Change": f"{(p_acc - b_acc) * 100:+.1f} pp",
         },
         {
             "Metric": "Macro-F1 (5x5 CV)",
             "Baseline": f"{b_f1:.3f} ± {base_frbm['macro_f1'].std():.3f}",
-            "Proposed": f"{p_f1:.3f} ± {prop_frbm['macro_f1'].std():.3f} (k=9: {k9_row['macro_f1_mean']:.3f})",
-            "Change": f"+{(p_f1 - b_f1) * 100:.1f} pp",
+            "Proposed": f"{p_f1:.3f} ± {prop_frbm['macro_f1'].std():.3f} (k={k_star}: {k_row['macro_f1_mean']:.3f})",
+            "Change": f"{(p_f1 - b_f1) * 100:+.1f} pp",
         },
         {
             "Metric": "Rule Count (n_rules)",
             "Baseline": f"{b_nr:.1f}",
-            "Proposed": f"{p_nr:.1f} (compact K1: 9.0)",
-            "Change": "0.0 (-3.0 with K1)",
+            "Proposed": f"{p_nr:.1f} (compact K1: {k_star})",
+            "Change": f"{p_nr - b_nr:+.1f} ({k_star - b_nr:+.1f} with K1)",
         },
         {
             "Metric": "Execution Time (fit+predict)",
@@ -95,6 +100,8 @@ def build_final_comparison():
 
 
 def main():
+    # Betikler goreli yollar (results/...) kullandigi icin her zaman repo kokunden calistir
+    os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
     scripts = [
         "experiments/baseline/run_baseline.py",
         "experiments/proposed/run_k1_topk.py",
