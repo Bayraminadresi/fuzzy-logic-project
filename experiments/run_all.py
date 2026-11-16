@@ -6,11 +6,50 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+# Tum deneyler sonunda results/ altinda bulunmasi beklenen dosyalar (rapor tablo ve sekilleri)
+EXPECTED_OUTPUTS = [
+    "results/tables/baseline_cv.csv",
+    "results/tables/baseline_summary.csv",
+    "results/tables/lens_analysis.csv",
+    "results/tables/k1_topk_curve.csv",
+    "results/tables/k1_topk_curve_baseline.csv",
+    "results/tables/k1_rule_importance.csv",
+    "results/tables/k1_rule_importance_baseline.csv",
+    "results/tables/k2_partitions_cv.csv",
+    "results/tables/k3_defuzz_cv.csv",
+    "results/tables/final_comparison.csv",
+    "results/figures/baseline_mfs.png",
+    "results/figures/baseline_boxplot.png",
+    "results/figures/lens_analysis.png",
+    "results/figures/k1_topk_curve.png",
+    "results/figures/k2_partitions.png",
+    "results/figures/final_comparison.png",
+]
+
 
 def run_step(script_path: str):
     """Belirtilen deney betigini alt surec olarak calistirir."""
     print(f"\n>>> Running {script_path} ...")
     subprocess.run([sys.executable, script_path], check=True)
+
+
+def list_outputs():
+    """results/ altindaki uretilen dosyalari listeler; beklenen ama bulunmayanlari ayrica bildirir."""
+    print("\n=== GENERATED FILES (results/) ===")
+    for root, _, files in sorted(os.walk("results")):
+        for fn in sorted(files):
+            if fn == ".gitkeep":
+                continue
+            path = os.path.join(root, fn).replace(os.sep, "/")
+            print(f"  {path}  ({os.path.getsize(path) / 1024:.1f} KB)")
+
+    missing = [p for p in EXPECTED_OUTPUTS if not os.path.exists(p)]
+    if missing:
+        print("\n[UYARI] Beklenen ancak bulunamayan dosyalar:")
+        for p in missing:
+            print(f"  - {p}")
+        raise SystemExit(1)
+    print(f"\nBeklenen {len(EXPECTED_OUTPUTS)} cikti dosyasinin tamami mevcut.")
 
 
 def build_final_comparison():
@@ -111,6 +150,7 @@ def main():
     for sc in scripts:
         run_step(sc)
     build_final_comparison()
+    list_outputs()
     print("\nTum tablo ve grafikler results/ altinda basariyla olusturuldu.")
 
 
