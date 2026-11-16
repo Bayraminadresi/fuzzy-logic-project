@@ -1,0 +1,13 @@
+rule_id,text,mean_firing,winner_count,importance
+R05,IF flavanoids is Medium AND proline is Low AND color_intensity is Low AND alcohol is Low THEN class 1 (w=0.99),0.12266963399827273,29,0.12266963399827273
+R01,IF flavanoids is High AND proline is High AND color_intensity is Medium AND alcohol is High THEN class 0 (w=1.00),0.11564552917214238,27,0.11564552917214238
+R09,IF flavanoids is Low AND proline is Medium AND color_intensity is High AND alcohol is Medium THEN class 2 (w=0.99),0.08851928403970374,18,0.08851928403970374
+R06,IF flavanoids is Medium AND proline is Medium AND color_intensity is Low AND alcohol is Low THEN class 1 (w=0.97),0.08090356355799648,17,0.08090356355799648
+R02,IF flavanoids is High AND proline is High AND color_intensity is High AND alcohol is High THEN class 0 (w=1.00),0.076090513452572,10,0.076090513452572
+R03,IF flavanoids is High AND proline is High AND color_intensity is Medium AND alcohol is Medium THEN class 0 (w=0.96),0.07386311939815526,15,0.07386311939815526
+R10,IF flavanoids is Low AND proline is Medium AND color_intensity is Medium AND alcohol is Medium THEN class 2 (w=0.80),0.06962004418582483,20,0.06962004418582483
+R04,IF flavanoids is High AND proline is Medium AND color_intensity is Medium AND alcohol is High THEN class 0 (w=0.99),0.06237067939550717,9,0.06237067939550717
+R07,IF flavanoids is Medium AND proline is Low AND color_intensity is Low AND alcohol is Medium THEN class 1 (w=0.97),0.057667951373763425,11,0.057667951373763425
+R11,IF flavanoids is Low AND proline is Medium AND color_intensity is High AND alcohol is High THEN class 2 (w=1.00),0.04596542845084833,8,0.04596542845084833
+R08,IF flavanoids is Low AND proline is Medium AND color_intensity is Low AND alcohol is Low THEN class 1 (w=0.93),0.045843532610286036,6,0.045843532610286036
+R12,IF flavanoids is Low AND proline is Low AND color_intensity is High AND alcohol is Medium THEN class 2 (w=0.95),0.034421593896801064,6,0.034421593896801064
