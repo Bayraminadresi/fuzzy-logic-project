@@ -10,6 +10,3 @@
 
 [5] C. Rudin, "Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead," *Nat. Mach. Intell.*, vol. 1, no. 5, pp. 206-215, 2019, doi: 10.1038/s42256-019-0048-x.
 
-Kaynaklar [3]-[5] referans makalenin kaynakçasından ([38], [48], [10]) alınmış ve oradaki bibliyografik bilgilerle eşleştirilmiştir.
-
-_Literatür araştırmasında doğrulanan diğer kaynaklar raporun References bölümündedir; buraya eklenmeden önce doğrulanmalıdır._
