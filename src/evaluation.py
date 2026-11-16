@@ -5,8 +5,12 @@ from sklearn.datasets import load_wine
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score
 
-# Ortak proje sabitleri
-FEATURES = ["flavanoids", "proline", "color_intensity", "alcohol"]
+try:
+    from rule_induction import FEATURES
+except ImportError:
+    from src.rule_induction import FEATURES
+
+# Ortak proje sabitleri (FEATURES tek kaynaktan, rule_induction.py'den gelir)
 SEED = 42
 
 
