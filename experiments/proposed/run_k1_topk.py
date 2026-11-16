@@ -10,6 +10,8 @@ from sklearn.metrics import accuracy_score, f1_score
 
 # Repo kok dizinini Python arama yoluna ekle
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+# Goreli yollar (results/...) her zaman repo kokune yazilsin diye calisma dizinini repo kokune al
+os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.fuzzy_engine import FuzzyClassifier
 from src.evaluation import FEATURES, SEED, load_wine_xy
 from src.posthoc import rule_importance, top_k_model
