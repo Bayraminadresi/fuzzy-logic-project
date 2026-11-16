@@ -1,0 +1,4 @@
+model,accuracy_mean,accuracy_std,accuracy_fmt,macro_f1_mean,macro_f1_std,macro_f1_fmt,n_rules,seconds_mean,seconds_fmt
+FuzzyClassifier (Baseline),0.6036,0.0703,0.604 ± 0.070,0.5015,0.0841,0.501 ± 0.084,12.0,0.00216,2.16 ± 0.42 ms
+DecisionTree (max_depth=3),0.9303,0.0488,0.930 ± 0.049,0.931,0.0476,0.931 ± 0.048,6.9,0.00175,1.75 ± 0.26 ms
+LogisticRegression (L2),0.963,0.0392,0.963 ± 0.039,0.9643,0.0378,0.964 ± 0.038,,0.00368,3.68 ± 0.39 ms
