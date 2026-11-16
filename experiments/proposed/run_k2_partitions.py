@@ -9,6 +9,8 @@ from scipy.stats import wilcoxon
 
 # Repo kok dizinini Python arama yoluna ekle
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+# Goreli yollar (results/...) her zaman repo kokune yazilsin diye calisma dizinini repo kokune al
+os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.fuzzy_engine import FuzzyClassifier
 from src.evaluation import FEATURES, SEED, load_wine_xy, cv_evaluate, summarize
 
@@ -36,7 +38,7 @@ def main():
     stat, p_val = wilcoxon(df_uni["accuracy"].values, df_qtl["accuracy"].values)
     print("=== K2: UNIFORM SFP vs QUANTILE SFP (5x5 CV) ===")
     print(summarize(k2_df)[["model", "accuracy_fmt", "macro_f1_fmt", "n_rules", "seconds_fmt"]].to_string(index=False))
-    print(f"Paired Wilcoxon signed-rank test on fold accuracy (descriptive, non-independent folds): stat={stat:.2f}, p={p_val:.6f}")
+    print(f"Paired Wilcoxon signed-rank test on fold accuracy (descriptive, non-independent folds): stat={stat:.2f}, p={p_val:.2e}")
 
     # Uyelik fonksiyonlari karsilastirmasi ve kutu grafigi (k2_partitions.png)
     m_uni = FuzzyClassifier(features=FEATURES, partition_method="uniform").fit(X, y)
