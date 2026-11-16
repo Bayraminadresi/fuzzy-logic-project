@@ -5,6 +5,8 @@ from scipy.stats import wilcoxon
 
 # Repo kok dizinini Python arama yoluna ekle
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+# Goreli yollar (results/...) her zaman repo kokune yazilsin diye calisma dizinini repo kokune al
+os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src.fuzzy_engine import FuzzyClassifier
 from src.evaluation import FEATURES, SEED, load_wine_xy, cv_evaluate, summarize
 
@@ -33,7 +35,7 @@ def main():
     stat, p_val = wilcoxon(df_cent["accuracy"].values, df_vote["accuracy"].values)
     print("=== K3: CENTROID vs MAX-VOTE DEFUZZIFICATION (5x5 CV) ===")
     print(summarize(k3_df)[["model", "accuracy_fmt", "macro_f1_fmt", "n_rules", "seconds_fmt"]].to_string(index=False))
-    print(f"Paired Wilcoxon (Uniform Centroid vs Vote): stat={stat:.2f}, p={p_val:.6f}")
+    print(f"Paired Wilcoxon (Uniform Centroid vs Vote): stat={stat:.2f}, p={p_val:.2e}")
 
 
 if __name__ == "__main__":
