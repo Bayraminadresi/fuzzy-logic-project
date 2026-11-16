@@ -75,7 +75,7 @@ def main():
     data_box = [cv_df.loc[cv_df["model"] == m, "accuracy"].values for m in order]
     bp = ax.boxplot(
         data_box,
-        labels=["FuzzyClassifier\n(Baseline, 12 rules)", "Decision Tree\n(max_depth=3)", "Logistic Regression\n(L2)"],
+        tick_labels=["FuzzyClassifier\n(Baseline, 12 rules)", "Decision Tree\n(max_depth=3)", "Logistic Regression\n(L2)"],
         patch_artist=True,
     )
     colors = ["#f5b7b1", "#aed6f1", "#a9dfbf"]
