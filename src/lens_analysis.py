@@ -32,7 +32,7 @@ def build_lens_table(
 
     # Post-hoc asamasi: Baseline'da kirmizi, K1 katkisindan sonra turuncu olarak guncellenir
     if posthoc_updated and os.path.exists(k1_curve_path):
-        k1_df = pd.read_csv(k1_curve_path)
+        k1_df = pd.read_csv(k1_curve_path).sort_values("k").reset_index(drop=True)
         if baseline_acc is None:
             baseline_acc = float(k1_df.loc[k1_df["k"] == k1_df["k"].max(), "accuracy_mean"].iloc[0])
         qualifying = k1_df[(k1_df["k"] < k1_df["k"].max()) & (k1_df["accuracy_mean"] >= baseline_acc - 0.02)]
@@ -150,5 +150,8 @@ def render_lens_figure(df: pd.DataFrame, out_path: str = "results/figures/lens_a
         pad=10,
     )
     plt.tight_layout()
+    out_dir = os.path.dirname(out_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     plt.savefig(out_path, dpi=300)
     plt.close()
