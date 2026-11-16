@@ -1,9 +1,0 @@
-lens,aspect,evidence,rating
-Scale,Local (instance-level),"Mean rules with firing > 0.05 per sample = 2.48 (threshold <=3 green, 3-6 orange)",green
-Scale,Global (model-level),"Compact rule base: n_rules = 12, n_features = 4, 3 linguistic terms/feature",orange
-Audience,Model Designer,"Full access to SFP parameters, rule weights, and firing strengths (not measured; qualitative)",green
-Audience,Domain Expert (Oenologist),4 chemical features with Low/Medium/High linguistic rules (not measured; qualitative),orange
-Audience,End User (Layperson),12 multi-antecedent chemical rules require domain literacy (not measured; qualitative),red
-Stage,Pre-model,MI + correlation feature screening in 01_data_exploration (4 non-redundant features),green
-Stage,In-model,Ruspini Strong Fuzzy Partition (sum=1) + pruning to 4 rules/class (12 total),green
-Stage,Post-hoc,K1 post-hoc rule importance & top-k pruning: k=9 rules achieves acc=0.938 (within 0.02 of full 12-rule model; no user study),orange
