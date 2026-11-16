@@ -1,0 +1,11 @@
+# Literature Comparison Table
+
+Covers the five references currently listed in `references/README.md` (numbering is the same). Cells marked "belirtilmemiş" were not stated in the sources available to the author and are intentionally left unfilled. This table must be extended whenever new verified sources are added to `references/README.md` (TASKS T12).
+
+| Ref | Year | Method | Dataset | Key result | Relation to our project |
+|---|---|---|---|---|---|
+| [1] Pickering, Cohen, De Baets | 2025 | Narrative review of highly cited interpretable-ML and fuzzy-modeling papers through three lenses (scale, audience, stage). | UCI Wine, used only as an illustrative FisPro example (Fig. 7). | No quantitative results; finds FRBMs absent from mainstream interpretable ML and recommends global/local analysis, user studies and post-hoc methods for FRBMs. | Reference paper: we reproduce its Fig. 7 analysis structurally and implement its suggested post-hoc rule importance (K1). |
+| [2] Aeberhard, Forina | 1992 | Not a method: chemical analysis data of wines from three cultivars. | Wine: 178 samples, 13 features, 3 classes. | Not applicable (dataset). | Benchmark dataset used in all our experiments and in the paper's Fig. 7 example. |
+| [3] Guillaume, Charnomordic | 2011 | FisPro: software for learning interpretable fuzzy inference systems from data with constraints, including variable selection. | Wine example (as cited in [1]); other datasets: belirtilmemiş. | Lets designers compare accuracy and interpretability as variables are added (as summarized in [1]). | Tool behind the paper's Fig. 7 model; we built our own NumPy engine and did not run FisPro. |
+| [4] Ruspini | 1969 | Introduces fuzzy partitions in the context of clustering. | belirtilmemiş | Defines the fuzzy partition whose memberships sum to one, the basis of strong fuzzy partitions (as described in [1]). | Basis of our `StrongFuzzyPartition` (Ruspini condition: memberships sum to 1). |
+| [5] Rudin | 2019 | Position paper arguing for inherently interpretable models instead of post-hoc explanations of black boxes in high-stakes decisions. | belirtilmemiş | Argues the accuracy-interpretability trade-off is often a myth for structured data with meaningful features (as summarized in [1]). | Motivates our use of an inherently interpretable FRBM and our caution about post-hoc outputs (K1). |
