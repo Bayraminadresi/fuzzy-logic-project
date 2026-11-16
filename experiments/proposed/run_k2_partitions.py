@@ -61,7 +61,7 @@ def main():
     ax_box = axes[2]
     bp = ax_box.boxplot(
         [df_uni["accuracy"].values, df_qtl["accuracy"].values],
-        labels=["Uniform SFP\n(Centroid)", "Quantile SFP\n(Centroid)"],
+        tick_labels=["Uniform SFP\n(Centroid)", "Quantile SFP\n(Centroid)"],
         patch_artist=True,
     )
     bp["boxes"][0].set_facecolor("#f5b7b1")
