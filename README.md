@@ -103,7 +103,7 @@ pip install -r requirements.txt
 ```
 
 ## Requirements
-Exact versions are pinned in `requirements.txt`: `numpy==1.26.4`, `pandas==2.2.2`, `scikit-learn==1.5.2`, `scipy==1.13.1`, `matplotlib==3.9.2`, `seaborn==0.13.2`, `scikit-fuzzy==0.5.0`. The fuzzy engine itself is implemented in NumPy only; `scikit-fuzzy` is used only in the exploration notebook. `matplotlib>=3.9` is needed (`boxplot(tick_labels=...)`). No API keys, passwords or tokens are used or stored.
+Exact versions are pinned in `requirements.txt`: `numpy==1.26.4`, `pandas==2.2.2`, `scikit-learn==1.5.2`, `scipy==1.13.1`, `matplotlib==3.9.2`, `seaborn==0.13.2`, `scikit-fuzzy==0.5.0`. The fuzzy engine itself is implemented in NumPy only. `scikit-fuzzy` is only installed in the setup cell of the exploration notebook; it is not imported in the notebook's analysis or in `experiments/`, and no cross-check against it is part of the reported results. `seaborn` is used for the notebook's correlation heatmap. `matplotlib>=3.9` is needed (`boxplot(tick_labels=...)`). No API keys, passwords or tokens are used or stored.
 
 ## How to Run
 Everything is seeded (`SEED = 42`). From the repository root:
