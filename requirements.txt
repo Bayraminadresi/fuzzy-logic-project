@@ -1,0 +1,7 @@
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+scikit-fuzzy
+# Surumler ilk calistirmadan sonra pip freeze ile sabitlenecek
