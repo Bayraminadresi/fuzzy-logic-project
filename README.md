@@ -1,9 +1,9 @@
 # Bulanık Kural Tabanlı Modellerde Yorumlanabilirlik: Wine Veri Seti Üzerinde Yeniden Gerçekleştirme ve Post-hoc Kural Önemi Analizi
 
 ## Student Information
-- Ad Soyad: _(doldurulacak)_
-- Öğrenci No: _(doldurulacak)_
-- Ders: Bulanık Mantık, Dönem Projesi
+- Ad Soyad: Bayram Külter
+- Öğrenci No: 1306220123
+- Ders: Bulanık Mantık Dönem Projesi
 
 ## Original Paper
 L. Pickering, K. Cohen, B. De Baets, "A Narrative Review on the Interpretability of Fuzzy Rule-Based Models from a Modern Interpretable Machine Learning Perspective," *Int. J. Fuzzy Syst.*, 2025. DOI: 10.1007/s40815-025-02022-z
