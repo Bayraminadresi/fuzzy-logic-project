@@ -93,7 +93,7 @@ fuzzy-logic-project/
 - **Features (our choice, the paper does not list them):** `flavanoids`, `proline`, `color_intensity`, `alcohol`. They were chosen in `notebooks/01_data_exploration.ipynb` using mutual information, correlation and a quick decision-tree check on the **whole** dataset (an exploratory analysis; see Limitations).
 
 ## Installation
-Python 3.10+ is recommended (developed and tested with the Python version of a Google Colab / Linux environment).
+Python **3.10–3.12** is required by the pinned versions (`numpy==1.26.4`, `pandas==2.2.2` and `scipy==1.13.1` do not provide Python 3.13 builds). The project was developed and run on Google Colab (Linux).
 
 ```bash
 git clone https://github.com/Bayraminadresi/fuzzy-logic-project.git
@@ -121,7 +121,7 @@ python experiments/proposed/run_k2_partitions.py    # K2: uniform vs quantile SF
 python experiments/proposed/run_k3_defuzz.py        # K3: centroid vs max-vote
 ```
 
-In Colab: clone the repository, run `pip install -r requirements.txt`, then `python experiments/run_all.py`. A full run takes a few minutes on CPU.
+In Colab: clone the repository, run `pip install -r requirements.txt`, then run the script **as a file** (`!python experiments/run_all.py` after `%cd fuzzy-logic-project`). Do not paste the script into a notebook cell: the scripts locate the repository root through `__file__`, which does not exist inside a cell. A full run takes a few minutes on CPU. At the end, `run_all.py` lists every generated file under `results/` and stops with an error if an expected table or figure is missing.
 
 ## Reproduction Experiments
 The paper's only concrete example (Section 7, Fig. 7) is a FisPro classifier on Wine with 12 rules and 4 features, assessed through three lenses. It gives no accuracy or parameters, so the comparison with the paper is structural:
@@ -134,6 +134,8 @@ The paper's only concrete example (Section 7, Fig. 7) is a FisPro classifier on 
 | Scale / Global | orange | orange (12 rules, 4 features) |
 | Audience (designer / expert / end user) | green / orange / red | green / orange / red (qualitative, **not measured**) |
 | Stage (pre / in / post-hoc) | green / green / red | green / green / red for the baseline; orange after K1 |
+
+Note: `run_baseline.py` first writes the baseline-only lens table, but `run_k1_topk.py` (which runs next) overwrites `lens_analysis.csv` and `lens_analysis.png` using the **proposed** model (quantile SFP + vote). The committed table therefore reports the 2.48 rules-per-sample value and the post-hoc evidence for the proposed model, not for the uniform + centroid baseline.
 
 Baseline (`experiments/baseline/run_baseline.py`), 5x5 repeated stratified CV (25 folds, same folds for every model):
 
@@ -152,7 +154,7 @@ Three controlled extensions, all derived from the paper's recommendations or fro
 - **K2 – Quantile-based Strong Fuzzy Partitions (paper Section 4.2).** Centres at the 10/50/90 % quantiles of the training data (shoulders keep the partition a Ruspini SFP) instead of uniform centres.
 - **K3 – Max-vote defuzzification (optional).** Class-wise maximum firing strength, `argmax` over classes, instead of centroid over the numeric class axis.
 
-The "proposed" model is K2+K3 (quantile SFP + vote). K1 is applied to the proposed model (rule importance is only meaningful for a model that classifies well) and, for comparison, to the baseline; both curves use the same folds.
+The "proposed" model is K2+K3 (quantile SFP + vote). K1 is applied to the proposed model (rule importance is only meaningful for a model that classifies well) and, for comparison, to the baseline; both curves use the same folds. Consequently the "full model" reference in the K1 criterion (k within 0.02 of the full 12-rule model) is the proposed model's own 12-rule accuracy (0.950), not the baseline's.
 
 ## Experimental Results
 Accuracy / macro-F1 over 25 folds (mean ± std; all tables in `results/tables/`):
@@ -168,11 +170,11 @@ Accuracy / macro-F1 over 25 folds (mean ± std; all tables in `results/tables/`)
 
 Baseline vs proposed (`results/tables/final_comparison.csv`): accuracy +34.7 pp, macro-F1 +44.9 pp, rule count 12 → 12 (→ 9 with K1, within 0.02 accuracy of the full model). Paired Wilcoxon signed-rank tests (uniform vs quantile with centroid; centroid vs vote with uniform) give p = 5.96e-08 (the second-method score is higher in all 25 folds); because CV folds are not independent this is descriptive only.
 
-K1 top-k curve (proposed model): k=3 → 0.847, k=6 → 0.924, k=9 → 0.938, k=12 → 0.950 accuracy. On the baseline model the curve is flat at about 0.60 for k ≥ 2 (`results/tables/k1_topk_curve_baseline.csv`), which shows that its weakness is the defuzzifier and not the number of rules.
+K1 top-k curve (proposed model): k=3 → 0.847, k=6 → 0.924, k=9 → 0.938, k=12 → 0.950 accuracy. On the baseline model the curve stays between about 0.58 and 0.63 for k ≥ 2 (`results/tables/k1_topk_curve_baseline.csv`), which shows that its weakness is the defuzzifier and not the number of rules.
 
 Figures: `baseline_mfs.png`, `baseline_boxplot.png`, `lens_analysis.png`, `k1_topk_curve.png`, `k2_partitions.png`, `final_comparison.png` in `results/figures/`.
 
-**Honest reading of the results.** The large gain is mostly due to replacing centroid with vote. Once vote is used, quantile partitions are not better than uniform ones (0.950 vs 0.953). K2 helps only under centroid. The proposed model is therefore not the single best configuration (uniform + vote is slightly higher); it was kept because it combines both extensions. The execution-time difference is within measurement noise (the same baseline configuration took roughly 1.9–2.5 ms per fold across repeated runs).
+**Honest reading of the results.** The large gain is mostly due to replacing centroid with vote. Once vote is used, quantile partitions are not better than uniform ones (0.950 vs 0.953). K2 helps only under centroid. The proposed model is therefore not the single best configuration (uniform + vote is slightly higher); it was kept because it combines both extensions. The proposed model was also slower than the baseline in `final_comparison.csv` (3.33 ms vs 2.16 ms per fit+predict, +1.17 ms), a difference larger than the baseline's own fold-to-fold spread (± 0.42 ms); it was not profiled, so its cause (e.g. quantile computation) is not established. In absolute terms both are a few milliseconds on a shared Colab CPU and timings are noisy.
 
 ## Limitations
 - **No numerical reproduction of the paper:** it reports no accuracy or parameters, and FisPro (Java) was not run. Our rule induction (Wang-Mendel + confidence pruning) only approximates FisPro's.
@@ -193,4 +195,4 @@ All code in `src/` and `experiments/` was written for this project; the paper ha
 4. E. H. Ruspini, "A new approach to clustering," *Inf. Control*, vol. 15, no. 1, pp. 22–32, 1969.
 5. C. Rudin, "Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead," *Nat. Mach. Intell.*, vol. 1, no. 5, pp. 206–215, 2019, doi: 10.1038/s42256-019-0048-x.
 
-The full, verified reference list is in `references/README.md` and the report.
+The same list is kept in `references/README.md`.
